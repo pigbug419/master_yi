@@ -1,0 +1,27 @@
+#lang racket
+
+(define (iseven n) (= (modulo n 2) 0)) ; iseven: int -> bool
+(define (even-list items) ; even-list: int list -> bool list
+  (if (null? items)
+    '()
+    (cons (iseven (car items)) (even-list (cdr items)))
+    )
+  )
+
+(define (my-map f items)
+  (if (null? items)
+      '()
+      (cons (f (car items)) (my-map f (cdr items)))
+      )
+  )
+
+(define (fold lst f c) ; fold: a list -> (a -> b -> b) -> b -> b
+  (if (null? lst)
+      c
+      (f (car lst) (fold (cdr lst) f c))
+      )
+  )
+
+(define (has-even items)
+  (fold (even-list items) (lambda (a b) (or a b)) #f)
+  )
